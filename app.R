@@ -3,10 +3,14 @@ library(shiny)
 generate_story <- function(noun, verb, adjective, adverb) {
   cat(file = stderr(), "Beginning story.\n")
 
-  glue::glue("
+  story <- glue::glue("
     Once upon a time, there was a {adjective} {noun} who loved to
     {verb} {adverb}. It was the funniest thing ever!
   ")
+
+  cat(file = stderr(), "Story successfuly created.\n")
+
+  story
 }
 
 ui <- fluidPage(
@@ -30,7 +34,7 @@ server <- function(input, output) {
   story <- eventReactive(input$submit, {
     generate_story(input$noun1, input$verb, input$adjective, input$adverb)
   })
-  cat(file = stderr(), "Story successfuly created.\n")
+
   output$story <- renderText({
     story()
   })
